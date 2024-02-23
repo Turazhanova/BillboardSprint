@@ -1,0 +1,14 @@
+com/example/billboardproject/controller/AuthController.class
+com/example/billboardproject/service/RoleService.class
+com/example/billboardproject/security/SecurityConfig.class
+com/example/billboardproject/BillboardProjectApplication.class
+com/example/billboardproject/controller/ManagerController.class
+com/example/billboardproject/controller/MainController.class
+com/example/billboardproject/repository/UserRepository.class
+com/example/billboardproject/model/BaseEntity.class
+com/example/billboardproject/model/User.class
+com/example/billboardproject/repository/RoleRepository.class
+com/example/billboardproject/model/Role.class
+com/example/billboardproject/model/User$UserBuilder.class
+com/example/billboardproject/service/impl/UserServiceImpl.class
+com/example/billboardproject/service/impl/RoleServiceImpl.class

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://territorystudio.com/wp-content/uploads/2022/09/Coke-Zero-Final-Frame-12-1750x984.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        .header {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .content {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>User Dashboard</h1>
+</div>
+<div class="container">
+    <div class="menu">
+        <div>
+            <a href="#"><i class="fas fa-home"></i> Home</a>
+            <a href="#"><i class="fas fa-tasks"></i> Tasks</a>
+            <a href="#"><i class="fas fa-calendar-alt"></i> Calendar</a>
+        </div>
+        <div>
+            <a href="#"><i class="fas fa-bell"></i> Notifications</a>
+            <a href="#"><i class="fas fa-user"></i> Profile</a>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Welcome, User!</h2>
+        <p>This is your user dashboard. You can view and manage your tasks, check your calendar, and view notifications here.</p>
+    </div>
+</div>
+<div class="footer">
+    <p>&copy; 2024 User Dashboard. All rights reserved.</p>
+</div>
+</body>
+</html>
