@@ -1,88 +1,512 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script type="text/javascript" src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/manage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+        body{
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('https://territorystudio.com/wp-content/uploads/2022/09/Coke-Zero-Final-Frame-12-1750x984.jpg');
-            background-size: cover;
-            background-position: center;
+            background-color: #FFF0DB;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            color: #000;
+        }
+
+        div, p, input, header, a, form {
+            box-sizing: border-box;
+        }
+
+        ul, li {
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+
+        .sub-menu {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .uer-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .uer-info h3 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .uer-info img {
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .sub-menu hr {
+            border: 0;
+            height: 1px;
+            width: 100%;
+            background: #ccc;
+            margin: 15px 0 10px;
+        }
+
+        .sub-menu-wrap {
+            position: absolute;
+            top: 73px;
+            right: -11px;
+            width: 260px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s;
+            z-index: 2;
+        }
+
+        .sub-menu-wrap.open-menu {
+            max-height: 400px;
+        }
+
+        .sub-menu-link {
+            display: flex;
+            align-items: center;
+            color: #525252;
+            margin: 12px 0;
+        }
+
+        .sub-menu-link p {
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .sub-menu-link i {
+            margin-right: 10px;
+            width: 18px;
+            background: #e5e5e5;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .sub-menu-link span {
+            font-size: 22px;
+            transition: transform 0.5s;
+
+        }
+
+        .sub-menu-link:hover span{
+            transform: translateX(5px);
+        }
+
+        .sub-menu-link:hover p {
+            font-weight: 600;
+        }
+
+
+        .sidebar {
+            background-color: #FFF;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .sidebar_items {
+            position: relative;
+            padding: 20px 0;
+            display: flex;
+            justify-content: end;
+        }
+
+        .sub-menu {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .name p {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .name p:nth-child(2n) {
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+
+        .enter {
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .enter img {
+            margin-right: 10px;
+        }
+        .name {
+            display: block;
+        }
+
+        .left_menu {
+            position: fixed;
+            background: #0E0B85;
+            width: 320px;
+            height: 100%;
+            padding: 15px 0;
+        }
+
+        .left_menu_items h1, a{
             color: #fff;
         }
 
-        .header {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
+        .left_menu_items h1 {
+            font-size: 35px;
+            width: 235px;
+            margin: 0 auto;
             text-align: center;
+            margin-bottom: 90px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
+        .list {
+            display: block;
+            text-align: left;
         }
 
-        .menu {
+        .list a {
+            font-size: 20px;
+            margin-left: 74px;
+            font-size: 800;
+        }
+
+        .list li {
+            margin-bottom: 30px;
+        }
+
+        .list ul {
+            padding-left: 20px;
+        }
+
+        .dash {
+            background: #FFF;
+            padding: 20px 0;
+            border-radius: 30px 0px 0px 30px;
+            margin-left: 12px;
+            width: 308px;
+        }
+
+
+        .dash a {
+            color: #0024A2;
+            margin-left: 60px;
+        }
+
+
+        .cards_info {
+            padding: 30px 0;
+        }
+
+        .cards_items {
+            margin-left: 280px;
+            display: flex;
+            margin-bottom: 70px;
+        }
+
+        .card {
+            display: block;
+            width: 200px;
+            background-color: #fff;
+            padding: 20px;
+            font-size: 20px;
+            border: 1px solid #4D49FF;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            margin-right: 40px;
+            height: 128px;
+        }
+
+
+        .card h3 {
+            font-size: 35px;
+            margin-bottom: 5px;
+        }
+
+        .card:nth-child(3n){
+            margin-right: 40px;
+        }
+
+        .text {
             display: flex;
             justify-content: space-between;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
-        .menu a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .content {
-            background-color: rgba(0, 0, 0, 0.7);
+        .red_card {
+            display: block;
+            width: 200px;
+            background-color: #001452;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 20px;
+            border: 1px solid #00145B;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            color: #FFF;
+            height: 128px;
         }
 
-        .footer {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
+        .red_card h3 {
+            color: #FFF;
+            font-size: 35px;
+        }
+
+        .red_card img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .red_report {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .report_item {
+            position: relative;
+            z-index: 1;
+        }
+
+        .red_nav {
+            position: absolute;
+            left: 1px;
+            top: 27px;
+            display: none;
+            transition: 0.6s ease;
+            text-align: left;
+        }
+
+
+        .red_nav button {
+            background: #00145B;
+            width: 75px;
+            color: #FFF;
+            border: 1px solid #FFFFFF;
+            padding: 2px 0;
+            margin: 0;
+            display: block;
+            text-align-last: center;
+            cursor: pointer;
+        }
+
+        .report_item img {
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            margin: 5px 5px 0 0;
+        }
+
+
+        .report_item:hover .red_nav {
+            display: block;
+        }
+
+        .order_side {
+            margin-left: 250px;
+        }
+
+
+        table, th, td{
+            border-collapse: collapse;
+            padding: 28px;
+        }
+
+
+
+        .order_items table {
+            border-radius: 8px;
+            background-color: #fff;
+            padding: 1rem;
             width: 100%;
         }
+
+        .order_items thead {
+            color: #000;
+            border-radius: 8px;
+        }
+
+        /* thead {
+            background-color: #F4624B;
+        } */
+
+        tbody tr:nth-child(odd) {
+            background-color: #ededed;
+        }
+
+        .order_side h1 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 720px;
+        }
+
+        td span {
+            background-color: #00145B;
+            color: #FFF;
+            padding: 5px;
+            border-radius: 6px;
+        }
+
+        .status {
+            background: #FFF;
+            display: flex;
+            padding: 20px 30px;
+            border-bottom: 1px solid #7a7a7a;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn button{
+            background-color: #00145B;
+            width: 106px;
+            padding: 12px;
+            color: #FFF;
+            font-weight: 800;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+
+
     </style>
+    <title>Admin Page</title>
 </head>
 <body>
-<div class="header">
-    <h1>Admin Dashboard</h1>
-</div>
-<div class="container">
-    <div class="menu">
-        <div>
-            <a href="#"><i class="fas fa-home"></i> Home</a>
-            <a href="#"><i class="fas fa-chart-bar"></i> Analytics</a>
-            <a href="#"><i class="fas fa-cog"></i> Settings</a>
-        </div>
-        <div>
+<section class="left_menu">
+    <div class="left_menu_items">
+        <h1>Happy Clients</h1>
+        <ul class="list">
+            <li class="dash">
+                <a th:href="@{'/admin/main/'}">Dashboard</a>
+            </li>
+            <li class="custom">
+                <a th:href="@{'/admin/incomingOrders/'}">Incoming Orders</a>
+            </li>
+            <li class="bilbo">
+                <a th:href="@{'/admin/allBillboards/'}">All Billboards</a>
+            </li>
+            <li class="new_bilbo">
+                <a th:href="@{'/admin/addNewBillboard/'}" >Post New Billboard</a>
+            </li>
+        </ul>
+    </div>
+</section>
+<header class="sidebar">
+    <div class="container">
+        <div class="sidebar_items">
+            <div class="enter">
+                <img src="/img/user.png" class="user-pic" onclick="toggleMenu()">
+            </div>
+            <div class="name">
+                <p th:text="${#authentication.getPrincipal().name} + ' ' + ${#authentication.getPrincipal().surname}"></p>
+                <p>Super Admin</p>
+            </div>
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <div class="uer-info">
+                        <img src="/img/user.png" class="img2">
+                        <h3 th:text="${#authentication.getPrincipal().name} + ' ' + ${#authentication.getPrincipal().surname}"></h3>
+                    </div>
+                    <hr>
+                    <a th:href="@{'/mainPage/'}" class="sub-menu-link" sec:authorize="hasAuthority('MANAGER')">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Home Page</p>
+                        <span>></span>
+                    </a>
+                    <a th:href="@{'/editOrViewProfile/'}" class="sub-menu-link">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <p>Edit profile</p>
+                        <span>></span>
+                    </a>
+                    <a class="sub-menu-link" href="JavaScript:void(0)"
+                       onclick="singOutForm.submit()">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <p>Log out</p>
+                        <form th:action="@{'/signOut'}" method="post" id="singOutForm"></form>
+                        <span>></span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="content">
-        <h2>Welcome, Admin!</h2>
-        <p>This is your admin dashboard. You can manage your site's content, view analytics, and configure settings from here.</p>
+</header>
+<section class="cards_info">
+    <div class="container">
+        <div class="cards_items">
+            <div class="card">
+                <div class="text">
+                    <h3 th:text="${activeOrders}"></h3>
+                    <img style="height: 20px" src="https://www.svgrepo.com/show/6940/check-mark.svg" alt="#">
+                </div>
+                <p>Active Orders</p>
+            </div>
+            <div class="card">
+                <div class="text">
+                    <h3 th:text="${inActiveOrders}"></h3>
+                    <img style="height: 20px" src="https://logowik.com/content/uploads/images/close1351.jpg" alt="#">
+                </div>
+                <p>Inactive Orders</p>
+            </div>
+            <div class="card">
+                <div class="text">
+                    <h3 th:text="${waitingOrders}"></h3>
+                    <img style="height: 20px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Clockwise_arrow.svg/2160px-Clockwise_arrow.svg.png" alt="#">
+                </div>
+                <p>Waiting Orders</p>
+            </div>
+            <div class="red_card">
+                <div class="text">
+                    <h3 th:text="${income}"></h3>
+                    <img style="height: 20px" src="https://static.vecteezy.com/system/resources/thumbnails/005/232/718/small_2x/analysis-line-icon-business-economy-and-finance-concept-graph-arrow-up-dollar-symbol-magnifying-linear-icon-illustration-vector.jpg" alt="#">
+                </div>
+                <div class="red_report">
+                    <p>All income</p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="footer">
-    <p>&copy; 2024 Admin Dashboard. All rights reserved.</p>
-</div>
+</section>
+<script>
+    let subMenu = document.getElementById("subMenu");
+
+    function toggleMenu(){
+        subMenu.classList.toggle("open-menu");
+
+    }
+</script>
 </body>
 </html>

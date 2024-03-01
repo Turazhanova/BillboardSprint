@@ -1,8 +1,6 @@
 package com.example.billboardproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
@@ -12,6 +10,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "roles")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role extends BaseEntity implements GrantedAuthority {
@@ -23,4 +23,8 @@ public class Role extends BaseEntity implements GrantedAuthority {
     public String getAuthority() {
         return role;
     }
+
+
+
+
 }

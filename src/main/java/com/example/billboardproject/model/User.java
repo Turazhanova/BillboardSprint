@@ -27,6 +27,7 @@ public class User extends BaseEntity implements UserDetails {
     private String address;
     private String phone;
     private String birthday;
+    private Role role;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
@@ -64,4 +65,15 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 }

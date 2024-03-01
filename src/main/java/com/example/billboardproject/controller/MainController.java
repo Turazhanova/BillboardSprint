@@ -2,6 +2,7 @@ package com.example.billboardproject.controller;
 
 import com.example.billboardproject.model.Role;
 import com.example.billboardproject.model.User;
+import com.example.billboardproject.service.impl.BillboardServiceImpl;
 import com.example.billboardproject.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,21 +14,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private BillboardServiceImpl billboardService;
 
     @GetMapping(value = "/")
     public String authPage() {
         return "redirect:/auth/";
     }
-
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/mainPage")
-    public String profilePage() {
+    public String profilePage(Model model) {
         User user = userService.getCurrentUser();
         for (Role r: user.getRoles()) {
             if (r.getRole().equals("MANAGER")) return "redirect:/admin/main";
         }
-        return "mainPage";
+        model.addAttribute("billboards", billboardService.getAllActiveBillboards());
+        return "main2";
     }
 
 

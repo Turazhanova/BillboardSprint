@@ -5,77 +5,160 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/main/resources/static/css/logIn.css">
+    <title>Welcome to the Happy Clients</title>
     <style>
-        body {
+
+        body{
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('https://creativereview.imgix.net/content/uploads/2021/04/A20024.02-BBC1-Dracula-Special-Build-scaled.jpg?auto=compress,format&q=60&w=1512&h=1080');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
+            background: url(https://creativereview.imgix.net/content/uploads/2021/04/A20024.02-BBC1-Dracula-Special-Build-scaled.jpg?auto=compress,format&q=60&w=1512&h=1080) 0 0 no-repeat;
         }
 
-        .logIn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            color: #0E0B85;
         }
 
-        .container {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
+        div, p, input, header, a, form {
+            box-sizing: border-box;
         }
 
-        .logIn_text {
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        ul, li {
+            margin: 0;
+            padding: 0;
+            display: block;
         }
 
         p {
-            font-size: 1.2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+            opacity: 80%;
+        }
+
+        .logIn {
+            padding: 150px 0;
+        }
+
+
+        .logIn_text h1 span {
+            color: #0E0B85;
+            margin: 0;
+        }
+
+        .logIn_text h1 {
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+
+        .logIn_items {
+            display: flex;
+        }
+
+        .logIn_items img {
+            width: 100%;
+        }
+
+        .logIn_text {
+            width: 480px;
+            background-color: #D9D9D9;
+            text-align: center;
+            padding: 50px 0 60px;
+            border-radius: 8px;
+            margin: 0 auto;
+        }
+
+        .logIn_text p{
+            width: 81%;
+            margin: 0 auto;
             margin-bottom: 20px;
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: rgba(255, 255, 255, 0.7);
+        .login-form {
+            padding: 200px 0;
+            text-align: center;
+        }
+
+        .info {
+            display: block;
+        }
+
+        .info input {
+            display: block;
+            margin: 0 auto;
+            background: #fff;
+            border: 2px solid rgba(0, 0, 0, 0.31);
+            border-radius: 8px;
+            width: 280px;
+            padding: 15px 27px;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .info input:nth-child(2n) {
+            margin-bottom: 30px;
+        }
+
+
+        .info input:focus {
+            background: #FFFCDE;
+            border: 2px solid rgb(195, 32, 32);
         }
 
         button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #333;
+            border:none;
+            border-radius: 10px;
+            background-color: #0E0B85;
+            width: 200px;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 auto 20px;
             color: #fff;
-            border-radius: 5px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #555;
-        }
-
-        .register a {
-            color: #fff;
+        .register a{
+            color: #000;
             text-decoration: none;
+            font-size: 16px;
         }
 
-        .register a:hover {
-            text-decoration: underline;
+        .register {
+            text-align: center;
+        }
+
+        .register a:nth-child(2n) {
+            margin-right: 0;
+        }
+
+        .wrong_password {
+            color: red;
+            font-size: 13px;
+            width: 275px;
+            display: block;
+            margin-left: 25px;
+            margin-top: -10px;
+
+        }
+
+        .wrong_password p {
+            width: 275px;
         }
     </style>
-    <title>Welcome to the Happy Clients</title>
 </head>
 <body>
 <div class="logIn">
@@ -83,24 +166,27 @@
         <div class="logIn_items">
             <div class="logIn_text">
                 <h1><span>Happy</span> Clients!</h1>
-                <p>Just enter your email and password. If you don't have an account, click "Register" below.</p>
+                <P>Just enter your email and password. If you don't have an account, click "Register" below.</P>
 
                 <form th:action="@{'/auth'}" method="post">
                     <div class="info">
-                        <input type="email" name="user_email" placeholder="Email" required="required">
-                        <input type="password" name="user_password" placeholder="Password" minlength="8" required="required">
-                    </div>
-                    <div class="btn">
-                        <button type="submit">Enter</button>
-                    </div>
-                    <div class="wrong_password" id="wrong_password" th:if="${param.afterRegistration != null}">
-                        <p style="color: green">After successful registration you should log in repeatedly.</p>
-                    </div>
-                    <div class="wrong_password" id="wrong_password" th:if="${param.error != null}">
-                        <p>Incorrect email or password.</p>
-                    </div>
-                    <div class="wrong_password" id="wrong_password" th:if="${param.accountExist != null}">
-                        <p>You have already registered!</p>
+                        <input type="text" name="user_email" placeholder="Email" required>
+
+                        <input type="password" name="user_password" placeholder="Password" minlength="8" required>
+                        <div class="wrong_password" id="wrong_password" th:if="${param.notEqualPasswords != null}">
+                            <p>Incorrect password</p>
+                        </div>
+                        <div th:style="'margin-right: 120px;'" class="wrong_password" id="wrong_password" th:if="${param.error != null}">
+                            <p>Invalid email or password</p>
+                        </div>
+
+                        <div class="btn">
+                            <button type="submit">Enter</button>
+                        </div>
+                        <div class="wrong_password" id="wrong_password" th:if="${param.afterRegistration != null}">
+
+                        </div>
+
                     </div>
                 </form>
                 <div class="register">
@@ -123,3 +209,4 @@
 </script>
 </body>
 </html>
+
