@@ -1,5 +1,6 @@
 package com.example.billboardproject.service.impl;
 
+import com.example.billboardproject.job.Helper;
 import com.example.billboardproject.model.User;
 import com.example.billboardproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -70,5 +73,13 @@ public class UserServiceImpl implements UserDetailsService {
         User foundUser = getUser(username);
         if (foundUser != null) return foundUser;
         throw new UsernameNotFoundException("User not found");
+    }
+    public void importUserCsv(MultipartFile file) {
+        try {
+            List<User> users = Helper.csvToUsers(file.getInputStream());
+            userRepository.saveAll(users);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

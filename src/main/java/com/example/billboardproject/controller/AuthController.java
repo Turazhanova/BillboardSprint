@@ -4,7 +4,7 @@ import com.example.billboardproject.model.User;
 import com.example.billboardproject.security.SecurityConfig;
 import com.example.billboardproject.service.impl.RoleServiceImpl;
 import com.example.billboardproject.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private UserServiceImpl userService;
-    @Autowired
-    private RoleServiceImpl roleService;
-    @Autowired
-    private SecurityConfig securityConfig;
+
+    private final UserServiceImpl userService;
+    private final RoleServiceImpl roleService;
+    private final SecurityConfig securityConfig;
 
     @GetMapping
     public String loginPage() {
@@ -49,7 +48,7 @@ public class AuthController {
             role = "MANAGER";
         }
 
-        user.setRoles(roleService.getRoleByRoleName(role));
+        user.setRole(roleService.getRoleByRoleName(role));
         user.setPassword(securityConfig.passwordEncoder().encode(password));
 
         if (password.equals(confPassword)) {

@@ -25,9 +25,8 @@ public class MainController {
     @GetMapping(value = "/mainPage")
     public String profilePage(Model model) {
         User user = userService.getCurrentUser();
-        for (Role r: user.getRoles()) {
-            if (r.getRole().equals("MANAGER")) return "redirect:/admin/main";
-        }
+        if (user.getRole() == Role.MANAGER) return "redirect:/admin/main";
+
         model.addAttribute("billboards", billboardService.getAllActiveBillboards());
         return "main2";
     }

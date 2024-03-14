@@ -2,11 +2,12 @@ package com.example.billboardproject.model;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,13 +28,12 @@ public class User extends BaseEntity implements UserDetails {
     private String address;
     private String phone;
     private String birthday;
+    @Enumerated(EnumType.STRING)
     private Role role;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

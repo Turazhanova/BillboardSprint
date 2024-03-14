@@ -48,8 +48,7 @@ public class ControllerUTest {
         String password = "123456Ai+";
         String confPassword = "123456Ai+";
 
-        Role userRole = new Role();
-        userRole.setRole("USER");
+        Role userRole = Role.USER;
 
         Mockito.when(passwordEncoder.encode(password)).thenReturn(password);
 
