@@ -77,7 +77,11 @@ public class UserServiceImpl implements UserDetailsService {
     public void importUserCsv(MultipartFile file) {
         try {
             List<User> users = Helper.csvToUsers(file.getInputStream());
-            userRepository.saveAll(users);
+            for (User user: users) {
+                if (userRepository.findByEmail(user.getEmail()) == null) {
+                    userRepository.save(user);
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
