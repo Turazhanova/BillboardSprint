@@ -1,9 +1,9 @@
 package com.example.billboardproject;
 
 import com.example.billboardproject.controller.AuthController;
-import com.example.billboardproject.model.Role;
 import com.example.billboardproject.model.User;
 import com.example.billboardproject.security.SecurityConfig;
+import com.example.billboardproject.service.impl.RoleServiceImpl;
 import com.example.billboardproject.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +20,8 @@ public class ControllerUTest {
 
     @Mock
     private UserServiceImpl userService;
+    @Mock
+    private RoleServiceImpl roleService;
 
 
 
@@ -47,8 +49,6 @@ public class ControllerUTest {
         String email = "aigerim2@gmail.com";
         String password = "123456Ai+";
         String confPassword = "123456Ai+";
-
-        Role userRole = Role.USER;
 
         Mockito.when(passwordEncoder.encode(password)).thenReturn(password);
 

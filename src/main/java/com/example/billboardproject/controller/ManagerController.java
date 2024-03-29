@@ -3,6 +3,8 @@ package com.example.billboardproject.controller;
 import com.example.billboardproject.model.Billboard;
 import com.example.billboardproject.service.BillboardService;
 import com.example.billboardproject.service.FileUploadService;
+import com.example.billboardproject.service.impl.CityServiceImpl;
+import com.example.billboardproject.service.impl.LocationServiceImpl;
 import com.example.billboardproject.service.impl.UserServiceImpl;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,12 @@ public class ManagerController {
     @Autowired
     private FileUploadService fileUploadService;
 
+    @Autowired
+    private CityServiceImpl cityService;
+
+    @Autowired
+    private LocationServiceImpl locationService;
+
     @PreAuthorize("hasAnyAuthority('MANAGER')")
     @GetMapping(value = "/main")
     public String adminPage(Model model) {
@@ -52,6 +60,9 @@ public class ManagerController {
         if (billboard != null) {
             model.addAttribute("billboard", billboard);
         }
+        System.out.println(billboard.getPrice());
+        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("locations", locationService.getAllLocations());
         return "detailEditing";
     }
 
@@ -62,6 +73,8 @@ public class ManagerController {
         String dateString = dateFormat.format(new Date());
 
         int currentMonth = Integer.parseInt(dateString);
+        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("locations", locationService.getAllLocations());
         model.addAttribute("currentMonth", currentMonth);
         model.addAttribute("billboards", billboardService.getAllActiveBillboards());
         model.addAttribute("notActiveBillboards", billboardService.getAllNotActiveBillboards());
@@ -70,7 +83,9 @@ public class ManagerController {
 
     @PreAuthorize("hasAnyAuthority('MANAGER')")
     @GetMapping(value = "/addNewBillboard")
-    public String addNewBillboardPage() {
+    public String addNewBillboardPage(Model model) {
+        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("locations", locationService.getAllLocations());
         return "newBillboards";
     }
 
@@ -100,23 +115,23 @@ public class ManagerController {
     @PreAuthorize("hasAnyAuthority('MANAGER')")
     @PostMapping(value = "/editBillboard")
     public String editBillboard(@RequestParam(name = "id") Long id,
-                                @RequestParam(name = "location") String location,
+                                @RequestParam(name = "location") Long location,
+                                @RequestParam(name = "city") Long city,
                                 @RequestParam(name = "size") String size,
+                                @RequestParam(name = "type") String type,
                                 @RequestParam(name = "isHasLightning") boolean isHasLightning,
-                                @RequestParam(name = "price") double price,
+                                @RequestParam(name = "price") int price,
                                 @RequestParam(name = "billboard_url") MultipartFile file) {
-        String city = "Almaty";
-        String type = "one-sided";
         Billboard billboard = billboardService.getBillboardById(id);
-        billboard.setCity(city);
+        billboard.setCity_id(city);
         billboard.setPrice(price);
         billboard.setType(type);
         billboard.setActive(true);
-        billboard.setLocation(location);
+        billboard.setLocation_id(location);
         billboard.setSize(size);
         billboard.setHasLightning(isHasLightning);
 
-        if (Objects.equals(file.getContentType(), "image/jpeg") || Objects.equals(file.getContentType(), "image/png")) {
+        if (Objects.equals(file.getContentType(), "image/jpg") || Objects.equals(file.getContentType(), "image/jpeg")) {
             fileUploadService.uploadImg(file, billboard);
         }
 
@@ -128,26 +143,28 @@ public class ManagerController {
 
     @PreAuthorize("hasAnyAuthority('MANAGER')")
     @PostMapping(value = "/addBillboard")
-    public String addBillboard(@RequestParam(name = "location") String location,
+    public String addBillboard(@RequestParam(name = "location") Long location,
                                @RequestParam(name = "size") String size,
                                @RequestParam(name = "isHasLightning") boolean isHasLightning,
-                               @RequestParam(name = "price") double price,
+                               @RequestParam(name = "price") int price,
+                               @RequestParam(name = "type") String type,
+                               @RequestParam(name = "city") Long city,
                                @RequestParam(name = "billboard_url") MultipartFile file) {
-        String city = "Almaty";
-        String type = "one-sided";
         Billboard billboard = Billboard.builder()
-                .location(location)
+                .location_id(location)
                 .price(price)
                 .isActive(true)
                 .isHasLightning(isHasLightning)
                 .type(type)
                 .size(size)
-                .city(city)
+                .city_id(city)
                 .build();
 
-        billboardService.addBillboard(billboard);
 
-        if (Objects.equals(file.getContentType(), "image/jpeg") || Objects.equals(file.getContentType(), "image/png")) {
+        billboardService.addBillboard(billboard);
+        System.out.println(file.getContentType() + "----");
+
+        if (Objects.equals(file.getContentType(), "image/jpg") || Objects.equals(file.getContentType(), "image/jpeg")) {
             fileUploadService.uploadImg(file, billboard);
         }
 
@@ -159,11 +176,11 @@ public class ManagerController {
     @GetMapping(value = "/getAva/{token}", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] getAva(@PathVariable(name = "token", required = false) String token) throws IOException {
         String pictureUrl = loadURL + "default.jpg";
-        System.out.println("--------- " + pictureUrl);
         if (token != null) {
 //            pictureUrl = loadURL + token + ".jpg";
             pictureUrl = loadURL + token;
         }
+        System.out.println(token + "--------- " + pictureUrl);
         InputStream in;
 
         try {

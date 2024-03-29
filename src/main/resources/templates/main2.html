@@ -862,12 +862,12 @@
         </ul>
         <div class="shops">
           <div class="enter">
-            <img src="../../resources/static/img/user.png" class="user-pic" onclick="toggleMenu()">
+            <img  style="height: 40px" src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=1380&t=st=1710492001~exp=1710492601~hmac=2facf8b6dd9ab55929f1b98082e457f4d117dc80deae716d47b81ed83ade7693" class="user-pic" onclick="toggleMenu()">
           </div>
           <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
               <div class="uer-info">
-                <img src="../../resources/static/img/user.png" class="img2">
+                <img style="height: 40px" src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=1380&t=st=1710492001~exp=1710492601~hmac=2facf8b6dd9ab55929f1b98082e457f4d117dc80deae716d47b81ed83ade7693" class="img2">
                 <h3 th:text="${#authentication.getPrincipal().name} + ' ' + ${#authentication.getPrincipal().surname}"></h3>
               </div>
               <hr>
@@ -896,21 +896,13 @@
   </div>
 </header>
 
-
-<section class="header">
-  <div class="container">
-    <div class="text_banner">
-
-    </div>
-  </div>
-</section>
 <section class="items" id="cards">
   <div class="container">
     <h1>All Billboards</h1>
     <div class="cards">
       <div class="cards_item" th:each="billboard : ${billboards}">
         <div class="img_banner">
-          <img th:src="@{${billboard.billboard_url}}" alt="#">
+          <img  th:src="@{'/admin/getAva/' + ${billboard.billboard_url}}" id="addImg" alt="">
           <!--          <img th:src="@{'/admin/getAva/' + ${billboard.billboard_url}}" alt="#">-->
           <a href="#">Featured</a>
           <p th:text="'Per month ' + ${billboard.price} + '$'"></p>
@@ -939,10 +931,10 @@
         <p>We believe that outdoor advertising should be accessible to businesses of all sizes. That's why we offer flexible pricing and financing options, as well as a wide range of design services to help bring your vision to life.</P>
       </div>
       <div class="grid_img">
-        <img src="/src/main/resources/static/img/banner_grid1.jpg" alt="#">
+        <img src="https://www.azaleaoutdoor.com/wp-content/uploads/2022/03/Azalea_Header04-2496x1397.jpg" alt="#">
         <div class="group1_grid">
-          <img src="/src/main/resources/static/img/banner_grid1.jpg" alt="#">
-          <img src="/src/main/resources/static/img/banner_grid2.jpg" alt="#">
+          <img src="https://www.junglecommunications.com/wp-content/uploads/Everything_BILLBOARD-NEW_767x300.jpg" alt="#">
+          <img src="https://www.gingermediagroup.com/wp-content/uploads/2023/09/various-digital-billboards-on-a-street-1024x576.jpg" alt="#">
         </div>
       </div>
     </div>
@@ -1006,15 +998,3 @@
   }
 </script>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-

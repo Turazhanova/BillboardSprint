@@ -150,7 +150,7 @@
             font-size: 13px;
             width: 275px;
             display: block;
-            margin-left: 25px;
+            margin-left: 50px;
             margin-top: -10px;
 
         }
@@ -176,7 +176,7 @@
                         <div class="wrong_password" id="wrong_password" th:if="${param.notEqualPasswords != null}">
                             <p>Incorrect password</p>
                         </div>
-                        <div th:style="'margin-right: 120px;'" class="wrong_password" id="wrong_password" th:if="${param.error != null}">
+                        <div th:style="'margin-right: 12px;'" class="wrong_password" id="wrong_password" th:if="${param.error != null}">
                             <p>Invalid email or password</p>
                         </div>
 
@@ -206,7 +206,22 @@
             $('#myOverlay').fadeOut(297);
         });
     });
+
+    window.onload = function() {
+        if (window.location.href.indexOf("?error") !== -1) {
+            if (!sessionStorage.getItem('pageRefreshed')) {
+                sessionStorage.setItem('pageRefreshed', 'true');
+            } else {
+                const cleanUrl = window.location.href.split("?")[0];
+                window.location.replace(cleanUrl);
+            }
+        } else {
+            sessionStorage.removeItem('pageRefreshed');
+        }
+    };
 </script>
+
+
 </body>
 </html>
 

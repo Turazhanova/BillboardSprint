@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="text/javascript" src="/js/main.js"></script>
-  <link rel="stylesheet" href="src/main/resources/templates/css/allBilboards.css">
+  <script type="text/javascript" th:src="@{'/js/main.js'}"></script>
+  <link rel="stylesheet" th:href="@{'/templates/css/allBilboards.css'}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
+<!--  <link rel="stylesheet" th:href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>-->
   <style>
     body{
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #FFF0DB;
+      background: ghostwhite;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -131,7 +131,7 @@
 
 
     .sidebar {
-      background-color: #FFF;
+      background: ghostwhite;
       width: 100%;
       margin-bottom: 40px;
     }
@@ -174,7 +174,7 @@
 
     .left_menu {
       position: fixed;
-      background: #A52800;
+      background: #0E0B85;
       width: 320px;
       height: 100%;
       padding: 15px 0;
@@ -219,7 +219,7 @@
     }
 
     .bilbo a {
-      color: #A52800;
+      background: #0E0B85;
       margin-left: 60px;
     }
 
@@ -332,7 +332,7 @@
       width: 242px;
       padding: 6px;
       border-radius: 10px;
-      background: #A52800;
+      background: #0E0B85;
       color: #FFF;
       margin-right: 15px;
       cursor: pointer;
@@ -372,15 +372,6 @@
       text-align: center;
     }
 
-    #myModal #myModal__close {
-      width: 21px; height: 21px;
-      position: absolute;
-      font-size: 29px;
-      top: 1px; right: 11px;
-      cursor: pointer;
-      display: block;
-    }
-
     #myOverlay {
       z-index: 37;
       position: fixed;
@@ -400,7 +391,7 @@
       width: 130px;
       padding: 17px;
       border-radius: 10px;
-      background: #A52800;
+      background: #0E0B85;
       color: #FFF;
       margin-right: 15px;
       cursor: pointer;
@@ -418,14 +409,9 @@
       justify-content: center;
     }
 
-    .modal_btn {
-      display: flex;
-      justify-content: center;
-    }
-
 
     .dropbtn {
-      background: #A52800;
+      background: #0E0B85;
       color: white;
       padding: 10px 0;
       font-size: 16px;
@@ -514,7 +500,7 @@
   <div class="container">
     <div class="sidebar_items">
       <div class="enter">
-        <img src="/img/user.png" class="user-pic" onclick="toggleMenu()">
+        <img  style="height: 40px" src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=1380&t=st=1710492001~exp=1710492601~hmac=2facf8b6dd9ab55929f1b98082e457f4d117dc80deae716d47b81ed83ade7693"  class="user-pic" onclick="toggleMenu()">
         <div class="name">
           <p th:text="${#authentication.getPrincipal().name} + ' ' + ${#authentication.getPrincipal().surname}"></p>
           <p>Super Admin</p>
@@ -522,7 +508,7 @@
         <div class="sub-menu-wrap" id="subMenu">
           <div class="sub-menu">
             <div class="uer-info">
-              <img src="/img/user.png" class="img2">
+              <img style="height: 40px" src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=1380&t=st=1710492001~exp=1710492601~hmac=2facf8b6dd9ab55929f1b98082e457f4d117dc80deae716d47b81ed83ade7693" class="img2">
               <h3 th:text="${#authentication.getPrincipal().name} + ' ' + ${#authentication.getPrincipal().surname}"></h3>
             </div>
             <hr>
@@ -559,11 +545,11 @@
         <div class="text">
           <div class="text_item">
             <h3>Location:</h3>
-            <p th:text="${billboard.location}"></p>
+            <p th:text="${locations[billboard.location_id - 1].name}"></p>
           </div>
           <div class="text_item">
             <h3>City:</h3>
-            <p th:text="${billboard.city}"></p>
+            <p th:text="${cities[billboard.city_id - 1].name}"></p>
           </div>
           <div class="text_item">
             <h3>Type:</h3>
@@ -588,9 +574,20 @@
             <span th:text=" ${billboard.id}"></span>
           </div>
           <div class="btn">
-            <a class="detail" th:href="@{'/admin/detailEditBillboard/'+${billboard.id}}">
-              <button>Details&Editing</button>
+            <a class="detail" th:href="@{'/admin/detailEditBillboard/' + ${billboard.id}}">
+              <button style="font-size:15px">Details & Editing</button>
             </a>
+            <button  style="background-color:red" type="button" class="delete_btn" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button>
+            <div id="myModal">
+              <h3>Are you sure you want to delete?</h3>
+              <div class="modal_btn">
+                <form id="deleteForm" th:action="@{'/admin/deleteBillboard'}" method="post">
+                  <input type="hidden" id="deleteBillboardId" name="deleteBillboardId" th:value="${billboard.id}">
+                  <button type="submit">Yes</button>
+                  <button type="button" id="myModal__close">No</button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -606,11 +603,11 @@
             <div class="text">
               <div class="text_item">
                 <h3>Location:</h3>
-                <p th:text="${billboard.location}"></p>
+                <p th:text="${locations[billboard.location_id - 1].name}"></p>
               </div>
               <div class="text_item">
                 <h3>City:</h3>
-                <p th:text="${billboard.city}"></p>
+                <p th:text="${cities[billboard.city_id - 1].name}"></p>
               </div>
               <div class="text_item">
                 <h3>Type:</h3>
@@ -652,6 +649,7 @@
   </div>
 </section>
 <div id="myOverlay"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
 <script>
   let subMenu = document.getElementById("subMenu");
@@ -675,29 +673,6 @@
   });
 </script>
 <script>
-  $('.delete').click(function (event) {
-    event.preventDefault();
-    $('#myOverlay').fadeIn(297, function () {
-      $('.myModal')
-              .css('display', 'block')
-              .animate({opacity: 1}, 198);
-    });
-  });
-
-  $('#myModal__close, #myOverlay').click(function () {
-    $('.myModal').animate({opacity: 0}, 198, function () {
-      $(this).css('display', 'none');
-      $('#myOverlay').fadeOut(297);
-    });
-  });
-  $('#close, #myOverlay').click(function () {
-    $('.myModal').animate({opacity: 0}, 198, function () {
-      $(this).css('display', 'none');
-      $('#myOverlay').fadeOut(297);
-    });
-  });
-</script>
-<script>
   function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
   }
@@ -718,5 +693,29 @@
     }
   }
 </script>
+<script>
+  $('.delete_btn').click(function (event) {
+    event.preventDefault();
+    var billboardId = $(this).closest('.cards_item').find('.id span').text();
+    $('#deleteBillboardId').val(billboardId);
+    $('#myOverlay').fadeIn(297, function () {
+      $('#myModal')
+              .css('display', 'block')
+              .animate({ opacity: 1 }, 198);
+    });
+  });
+
+
+  $('#myModal__close, #myOverlay').click(function () {
+    $('#myModal').animate({ opacity: 0 }, 198, function () {
+      $(this).css('display', 'none');
+      $('#myOverlay').fadeOut(297);
+    });
+  });
+</script>
+
+<script th:src="@{'js/bootstrap.bundle.js'}" type="text/javascript"></script>-->
+<!--<script type="text/javascript" th:src="@{'/js/jquery-3.6.0.min.js'}"></script>-->
+
 </body>
 </html>

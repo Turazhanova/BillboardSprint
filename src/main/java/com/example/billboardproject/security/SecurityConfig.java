@@ -40,12 +40,13 @@ public class SecurityConfig {
 
 
         http.formLogin()
-                .loginProcessingUrl("/auth").permitAll()
-                .defaultSuccessUrl("/mainPage")
-                .failureUrl("/auth/?error")
+                .loginPage("/")
+                .loginProcessingUrl("/auth")
+
                 .usernameParameter("user_email")
                 .passwordParameter("user_password")
-                .loginPage("/").permitAll();
+                .defaultSuccessUrl("/mainPage")
+                .failureUrl("/auth?error");
 
         http.logout()
                 .logoutSuccessUrl("/")

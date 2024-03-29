@@ -14,7 +14,7 @@
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #FFF0DB;
+      background: ghostwhite;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -52,7 +52,7 @@
 
 
     .sidebar {
-      background-color: #FFF;
+      background: ghostwhite;
       width: 100%;
       margin-bottom: 40px;
     }
@@ -96,7 +96,7 @@
 
     .left_menu {
       position: fixed;
-      background: #A52800;
+      background: #0E0B85;
       width: 320px;
       height: 100%;
       padding: 15px 0;
@@ -331,7 +331,7 @@
       padding: 8px 0;
       width: 100%;
       font-size: 18px;
-      background: #A52800;
+      background: #0E0B85;
       display: none;
     }
 
@@ -349,7 +349,7 @@
       height: 50px;
       display: block;
       border: none;
-      background-color: #D33232;
+      background: #0E0B85;
       color: #fff;
       border-radius: 8px;
       font-size: 16px;
@@ -366,7 +366,7 @@
       height: 50px;
       display: block;
       border: none;
-      background-color: #D33232;
+      background: #0E0B85;
       color: #fff;
       border-radius: 8px;
       font-size: 16px;
@@ -433,7 +433,7 @@
 
     input[type=submit] {
       width: 100%;
-      background-color: #D33232;
+      background: #0E0B85;
       color: white;
       padding: 10px 0;
       margin: 8px 0;
@@ -444,7 +444,7 @@
 
     button {
       width: 100%;
-      background-color: #D33232;
+      background: #0E0B85;
       color: white;
       padding: 10px 0;
       margin: 8px 0;
@@ -487,7 +487,7 @@
   <div class="container">
     <div class="sidebar_items">
       <div class="enter">
-        <img src="/img/user.png" class="user-pic" onclick="toggleMenu()">
+        <img  style="height: 30px" src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=1380&t=st=1710492001~exp=1710492601~hmac=2facf8b6dd9ab55929f1b98082e457f4d117dc80deae716d47b81ed83ade7693" class="user-pic" onclick="toggleMenu()">
       </div>
       <div class="name">
         <p th:text="${#authentication.getPrincipal().name} + ' ' + ${#authentication.getPrincipal().surname}"></p>
@@ -496,7 +496,7 @@
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
           <div class="uer-info">
-            <img src="/img/user.png" class="img2">
+            <img  style="height: 30px" src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=1380&t=st=1710492001~exp=1710492601~hmac=2facf8b6dd9ab55929f1b98082e457f4d117dc80deae716d47b81ed83ade7693" class="img2">
             <h3 th:text="${#authentication.getPrincipal().name} + ' ' + ${#authentication.getPrincipal().surname}"></h3>
           </div>
           <hr>
@@ -534,31 +534,36 @@
               </div>
               <div class="content">
                 <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                <div class="text">No file chosen, yet!</i></div>
+                <div class="text">No file chosen, yet!</div>
               </div>
               <div id="cancel_btn" onclick="cancelBtnActive()"><i class="fas fa-times"></i></div>
               <div id="file_name"><i>File name here</i></div>
             </div>
             <input id="default-btn" type="file" name="billboard_url" hidden required>
-            <!--                        <input id="upload_btn" type="submit" hidden>-->
-            <button type="button" onclick="defaultBtnActive()" id="custom-btn" class="custom-btn">Choose a
-              photo
-            </button>
-            <!--                    <button onclick="uploadFile()" id="upd_btn" class="upd_btn">Upload</button>-->
+            <button type="button" onclick="defaultBtnActive()" id="custom-btn" class="custom-btn">Choose a photo</button>
           </div>
+          <div id="validation-text" style="display: none; color: red;">Please choose a JPG file.</div>
           <div class="form_edit">
             <div class="form_each_line">
-              <label>Location</label>
-              <input type="text" name="location" value="" required>
+              <label for="City">City</label>
+              <select id="city" name="city" onchange="filterLocations()">
+                <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+              </select>
             </div>
             <div class="form_each_line">
-              <label>City</label>
-              <input type="text" name="city" value="" required>
+              <label for="Location">Location</label>
+              <select id="location" name="location">
+                <option value="">Select a location</option>
+                <!-- Placeholder option for initial display -->
+                <option th:each="location: ${locations}" th:value="${location.id}" th:text="${location.name}" th:attr="data-cityId=${location.city_id}"></option>
+              </select>
             </div>
             <div class="form_each_line">
               <label>Type</label>
-              <input type="text" name="type" value="" required>
-            </div>
+              <select id="type" name="type">
+                <option value="One-sided">One-sided</option>
+                <option value="Two-sided">Two-sided</option>
+              </select>            </div>
             <div class="form_each_line">
               <label for="Size">Size</label>
               <select id="size" name="size">
@@ -576,7 +581,8 @@
             </div>
             <div class="form_each_line">
               <label>Price($)</label>
-              <input type="text" name="price" value="" required>
+              <input type="text" name="price" value="" required oninput="validatePrice(this)">
+              <div id="validation-price" style="display: none; color: red;">Please enter a valid number.</div>
             </div>
             <button type="submit">Save</button>
           </div>
@@ -585,12 +591,28 @@
     </form>
   </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   let subMenu = document.getElementById("subMenu");
 
   function toggleMenu() {
     subMenu.classList.toggle("open-menu");
 
+  }
+</script>
+
+<script>
+  function validatePrice(input) {
+    const price = input.value;
+    const isValid = /^\d+$/.test(price); // Check if input contains only digits
+    console.log(input.value + " " + input.value.length);
+    const validationMessage = document.getElementById('validation-price');
+    if (!isValid && input.value.length > 0) {
+      validationMessage.style.display = 'block';
+    } else {
+      validationMessage.style.display = 'none';
+    }
   }
 </script>
 <script>
@@ -619,25 +641,40 @@
     console.log("Файл отправлен!");
   }
 
+  $('.delete_btn').click( function(event){
+    event.preventDefault();
+    $('#myOverlay').fadeIn(297,  function(){
+      $('#myModal')
+              .css('display', 'block')
+              .animate({opacity: 1}, 198);
+    });
+  });
+
   defaultBtn.addEventListener("change", function () {
     const file = this.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function () {
-        const result = reader.result;
-        img.src = result;
-        first.classList.add("active");
-      }
-      cancelBtn.addEventListener("click", function () {
-        img.src = "";
-        first.classList.remove("active");
-      });
+      let fileType = file.type;
+      console.log(fileType);
+      if (!fileType.includes('image/jpg') && !fileType.includes('image/jpeg')) {
+        document.getElementById('validation-text').style.display = 'block';
+      } else {
+        document.getElementById('validation-text').style.display = 'none';
+        const reader = new FileReader();
+        reader.onload = function () {
+          const result = reader.result;
+          img.src = result;
+          first.classList.add("active");
+        }
+        cancelBtn.addEventListener("click", function () {
+          img.src = "";
+          first.classList.remove("active");
+        });
 
-      reader.readAsDataURL(file);
-      if (this.value) {
-        let valueStore = this.value.replace(/^.*[\\\/]/, '');
-        ;
-        fileName.textContent = valueStore;
+        reader.readAsDataURL(file);
+        if (this.value) {
+          let valueStore = this.value.replace(/^.*[\\\/]/, '');
+          fileName.textContent = valueStore;
+        }
       }
     }
   });
@@ -650,6 +687,29 @@
       console.log("Файл не выбран!");
     }
   });
+</script>
+<script>
+  function filterLocations() {
+    var cityId = document.getElementById('city').value;
+    var locationSelect = document.getElementById('location');
+    var locations = locationSelect.getElementsByTagName('option');
+    locationSelect.options[0].text = 'Select a location';
+
+    for (var i = 0; i < locations.length; i++) {
+      var location = locations[i];
+      var cityIdAttr = location.getAttribute('data-cityId');
+
+      if (cityId === '' || cityIdAttr === cityId) {
+        location.style.display = '';
+
+      } else {
+        location.style.display = 'none';
+      }
+    }
+  }
+
+  // Initially hide all locations
+  filterLocations();
 </script>
 </body>
 </html>

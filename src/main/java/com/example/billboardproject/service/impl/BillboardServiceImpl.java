@@ -67,4 +67,5 @@ public class BillboardServiceImpl implements BillboardService {
     public void deleteBillboard(Long id) {
         billboardRepository.deleteById(id);
     }
+
 }

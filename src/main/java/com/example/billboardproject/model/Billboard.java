@@ -12,11 +12,11 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 public class Billboard extends BaseEntity{
     private String billboard_url;
-    private String location;
-    private String city;
+    private Long location_id;
+    private Long city_id;
     private String type;
     private String size;
     private boolean isHasLightning;
-    private double price;
+    private int price;
     private boolean isActive;
 }
