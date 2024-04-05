@@ -9,5 +9,7 @@ public class BillboardProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(BillboardProjectApplication.class, args);
     }
+    
+
 
 }

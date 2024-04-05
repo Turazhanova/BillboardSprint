@@ -296,12 +296,12 @@
 
     .first .icon {
       font-size: 100px;
-      color: #A52800;
+      color: #0E0B85;
     }
 
     .first .text {
       font-size: 20px;
-      color: #A52800;
+      color: #0E0B85;
       font-weight: 500;
     }
 
@@ -312,7 +312,7 @@
       top: 15px;
       font-size: 15px;
       cursor: pointer;
-      color: #A52800;
+      color: #0E0B85;
       display: none;
     }
 
@@ -321,7 +321,7 @@
     }
 
     .first #cancel_btn:hover {
-      color:  #D33232;
+      color:  #0E0B85;
     }
 
     .first #file_name {
@@ -541,8 +541,8 @@
             </div>
             <input id="default-btn" type="file" name="billboard_url" hidden required>
             <button type="button" onclick="defaultBtnActive()" id="custom-btn" class="custom-btn">Choose a photo</button>
+            <div id="validation-text" style="display: none; color: red;">Please choose a JPG file.</div>
           </div>
-          <div id="validation-text" style="display: none; color: red;">Please choose a JPG file.</div>
           <div class="form_edit">
             <div class="form_each_line">
               <label for="City">City</label>
