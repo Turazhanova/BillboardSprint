@@ -840,11 +840,10 @@
               <a href="#cards">
                 All Billboards
               </a>
-
             </li>
 
             <li>
-              <a href="${'/basket/'}">
+              <a th:href="@{'/basket/'}">
                 Orders
               </a>
             </li>
@@ -909,8 +908,8 @@
         </div>
         <div class="banner_detail">
           <div class="banner_textD">
-            <h3 th:text="${billboard.location}"></h3>
-            <p th:text="'City: '+ ${billboard.city}"></p>
+            <h3 th:text="${locations[billboard.location_id].name}"></h3>
+            <p th:text="'City: '+ ${cities[billboard.city_id].name}"></p>
             <p th:text="'Type: '+ ${billboard.type}"></p>
             <p th:text="'Size: '+ ${billboard.size}"></p>
           </div>

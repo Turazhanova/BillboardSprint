@@ -49,7 +49,6 @@ public class BillboardServiceImpl implements BillboardService {
                 activeBillboards.add(bill);
             }
         }
-
         return activeBillboards;
     }
 

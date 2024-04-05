@@ -1,8 +1,10 @@
 package com.example.billboardproject.controller;
 
 import com.example.billboardproject.model.Billboard;
+import com.example.billboardproject.model.Order;
 import com.example.billboardproject.service.BillboardService;
 import com.example.billboardproject.service.FileUploadService;
+import com.example.billboardproject.service.OrderService;
 import com.example.billboardproject.service.impl.CityServiceImpl;
 import com.example.billboardproject.service.impl.LocationServiceImpl;
 import com.example.billboardproject.service.impl.UserServiceImpl;
@@ -46,10 +48,37 @@ public class ManagerController {
     @Autowired
     private LocationServiceImpl locationService;
 
+    @Autowired
+    private OrderService orderService;
+
     @PreAuthorize("hasAnyAuthority('MANAGER')")
     @GetMapping(value = "/main")
     public String adminPage(Model model) {
+        model.addAttribute("income", orderService.sumOfIncome());
+        model.addAttribute("waitingOrders", orderService.getAllWaitingOrders());
+        model.addAttribute("activeOrders", orderService.getAllActiveOrders());
+        model.addAttribute("inActiveOrders", orderService.getAllInactiveOrders());
         return "manager";
+    }
+
+    @PreAuthorize("hasAnyAuthority('MANAGER')")
+    @GetMapping(value = "/incomingOrders")
+    public String incomingOrdersPage(Model model) {
+        model.addAttribute("billboards", billboardService.getAllActiveBillboards());
+        model.addAttribute("orders", orderService.getAllOrders());
+        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("locations", locationService.getAllLocations());
+        return "order";
+    }
+    @PreAuthorize("hasAnyAuthority('MANAGER')")
+    @PostMapping(value = "/changeStatus")
+    public String changeStatusOfOrder(@RequestParam(name = "orderId") Long orderId) {
+        Order changingStatus = orderService.getOrderById(orderId);
+        if (changingStatus != null) {
+            changingStatus.setStatus(1);
+            orderService.editOrder(changingStatus);
+        }
+        return "redirect:/admin/incomingOrders/";
     }
 
     @PreAuthorize("hasAnyAuthority('MANAGER')")
