@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Controller
 @RequestMapping(value = "/order")
 public class OrderController {
@@ -42,6 +45,9 @@ public class OrderController {
         String redirect = "";
         User currentUser = userService.getUserData();
         Order order = new Order();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String sqlDateTime = localDateTime.format(formatter);
         if (currentUser != null) {
             order.setStartDate(startDate);
             order.setEndDate(endDate);
@@ -49,6 +55,7 @@ public class OrderController {
             order.setTelNumber(phone);
             order.setUser(currentUser);
             order.setStatus(0);
+            order.setOrderDate(sqlDateTime);
         }
         model.addAttribute("cities", cityService.getAllCities());
         model.addAttribute("locations", locationService.getAllLocations());

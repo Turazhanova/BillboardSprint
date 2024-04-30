@@ -16,6 +16,7 @@ import javax.persistence.Table;
 public class Order extends BaseEntity{
     private String startDate;
     private String endDate;
+    private String orderDate;
     private String telNumber;
     private int status; // 0-Waiting 1-Approved 2-Rejected
 
@@ -24,4 +25,5 @@ public class Order extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Billboard billboard;
+
 }

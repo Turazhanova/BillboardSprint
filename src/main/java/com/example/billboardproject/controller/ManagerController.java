@@ -23,10 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -60,14 +57,34 @@ public class ManagerController {
         model.addAttribute("waitingOrders", orderService.getAllWaitingOrders());
         model.addAttribute("activeOrders", orderService.getAllActiveOrders());
         model.addAttribute("inActiveOrders", orderService.getAllInactiveOrders());
+        model.addAttribute("orders", orderService.getAllOrders());
         return "manager";
     }
 
     @PreAuthorize("hasAnyAuthority('MANAGER')")
     @GetMapping(value = "/incomingOrders")
     public String incomingOrdersPage(Model model) {
-        model.addAttribute("billboards", billboardService.getAllActiveBillboards());
-        model.addAttribute("orders", orderService.getAllOrders());
+        List<Order> orders = orderService.getAllOrders();
+        List<Long> sortBillboardsIds = new ArrayList<>();
+        List<Billboard> billboards = billboardService.getAllActiveBillboards();
+        for (int i = 0; i < orders.size(); i++) {
+            Billboard billboardOfOrder = orders.get(i).getBillboard();
+            if (!sortBillboardsIds.contains(billboardOfOrder.getId())) {
+                sortBillboardsIds.add(billboardOfOrder.getId());
+            }
+        }
+        for (int i = 0; i < billboards.size(); i++) {
+            if (!sortBillboardsIds.contains(billboards.get(i).getId())) {
+                sortBillboardsIds.add(billboards.get(i).getId());
+            }
+        }
+        List<Billboard> ansBillboards = new ArrayList<>();
+        for (int i = 0; i < sortBillboardsIds.size(); i++) {
+            ansBillboards.add(billboardService.getBillboardById(sortBillboardsIds.get(i)));
+        }
+
+        model.addAttribute("billboards", ansBillboards);
+        model.addAttribute("orders", orders);
         model.addAttribute("cities", cityService.getAllCities());
         model.addAttribute("locations", locationService.getAllLocations());
         return "order";

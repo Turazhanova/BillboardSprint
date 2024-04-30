@@ -34,9 +34,9 @@ class OrderServiceImplTest {
         Long billboardId = 1L;
         List<Order> orders = new ArrayList<>();
         orders.add(new Order());
-        when(orderRepository.findOrdersByBillboard_Id(billboardId)).thenReturn(orders);
+        when(orderRepository.findOrdersByBillboardId(billboardId)).thenReturn(orders);
         List<Order> result = orderService.getAllOrdersByBillboardId(billboardId);
-        verify(orderRepository).findOrdersByBillboard_Id(billboardId);
+        verify(orderRepository).findOrdersByBillboardId(billboardId);
         assertEquals(orders, result);
     }
 
@@ -76,9 +76,9 @@ class OrderServiceImplTest {
         Long userId = 1L;
         List<Order> orders = new ArrayList<>();
         orders.add(new Order());
-        when(orderRepository.findOrdersByUser_Id(userId)).thenReturn(orders);
+        when(orderRepository.findOrdersByUserId(userId)).thenReturn(orders);
         List<Order> result = orderService.getAllOrdersByUserId(userId);
-        verify(orderRepository).findOrdersByUser_Id(userId);
+        verify(orderRepository).findOrdersByUserId(userId);
         assertEquals(orders, result);
     }
 
