@@ -499,13 +499,74 @@
             </div>
         </div>
     </div>
-</section>
+<!--    <section class="order_side">-->
+<!--        <script type="text/javascript">-->
+<!--        </script>-->
+<!--        <div class="status">-->
+<!--            <div class="btn">-->
+<!--                <button th:onclick="|showOrders('today', this.getAttribute('orders'))|">Today</button>-->
+<!--                <button th:onclick="|showOrders('week', this.getAttribute('orders'))|">This Week</button>-->
+<!--                <button th:onclick="|showOrders('month', this.getAttribute('orders'))|">This Month</button>-->
+<!--                <button th:onclick="|showOrders('all', this.getAttribute('orders'))|">All Time</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="container">-->
+<!--            <h1>Order Details</h1>-->
+<!--            <div class="order_items">-->
+<!--                <table>-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Id</th>-->
+<!--                        <th>Billboard Name</th>-->
+<!--                        <th>Income</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody id="orderTableBody">-->
+<!--                    &lt;!&ndash; Table rows will be populated dynamically here &ndash;&gt;-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+<!--</section>-->
 <script>
     let subMenu = document.getElementById("subMenu");
 
     function toggleMenu(){
         subMenu.classList.toggle("open-menu");
 
+    }
+
+    function showOrders(timePeriod, orders) {
+        console.log("ORDERS");
+        console.log(orders);
+        const tableBody = document.getElementById("orderTableBody");
+        tableBody.innerHTML = ""; // Clear existing table rows
+
+        let filteredOrders = orders; // Assuming orders is an array containing all orders
+        // Filter orders based on the selected time period
+        if (timePeriod === "today") {
+            // Filter orders for today
+            // filteredOrders = orders.filter(order => /* Check if order is from today */);
+        } else if (timePeriod === "week") {
+            // Filter orders for this week
+            // filteredOrders = orders.filter(order => /* Check if order is from this week */);
+        } else if (timePeriod === "month") {
+            // Filter orders for this month
+            // filteredOrders = orders.filter(order => /* Check if order is from this month */);
+        }
+        // You can add more conditions for other time periods
+
+        // Populate the table with filtered orders
+        filteredOrders.forEach(order => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${order.id}</td>
+            <td>${order.billboardName}</td>
+            <td>${order.income}</td>`;
+            tableBody.appendChild(row);
+        });
     }
 </script>
 </body>
